@@ -1,0 +1,10 @@
+version: 1.0
+shards:
+  celestine:
+    github: redcodefinal/celestine
+    commit: e3395e0d22349fa7bff94ea6f10f6f546a0320c1
+
+  vectormath:
+    github: mathalaxy/vectormath
+    version: 0.1.5
+

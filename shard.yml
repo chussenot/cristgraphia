@@ -1,0 +1,18 @@
+name: cristgraphia
+version: 0.1.0
+
+authors:
+  - Clement Hussenot <chussenot@gmail.com>
+
+targets:
+  cristgraphia:
+    main: src/cristgraphia.cr
+
+dependencies:
+  celestine:
+    github: redcodefinal/celestine
+    branch: e3395e0d22349fa7bff94ea6f10f6f546a0320c1
+
+crystal: 0.34.0
+
+license: MIT
