@@ -45,6 +45,16 @@ module Cristgraphia
         [n - r, r].shuffle
       end.flatten
   end
+
+  def digits(num)
+    cs = num.to_s.chars
+    ([] of Int32).tap do |o|
+      while cs.size > 0
+        c = cs.shift
+        o << (c + Array.new(cs.size) { |_i| 0 }.join).to_i
+      end
+    end
+  end
 end
 
 o = Celestine.draw do |ctx|
@@ -69,3 +79,4 @@ end
 include Cristgraphia
 
 puts cister("OK alors c'est super les gars...")
+puts digits(2048)
