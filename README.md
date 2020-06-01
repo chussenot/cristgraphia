@@ -4,7 +4,7 @@
 an inventory of their library serves as a pretext for an encryption game. 
 Many ideas are behind it, such as the way the Easter Island natives used to write... snail-shaped.
 
-This project is a port of a previous [`ruby` version]()
+This project is a port of a previous [`ruby`](https://github.com/chussenot/cistergraphia) implementation.
 
 ![monk](monk.png)
 
