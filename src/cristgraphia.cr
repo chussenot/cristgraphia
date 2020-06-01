@@ -1,23 +1,5 @@
 require "celestine"
 
-struct Celestine::Line < Celestine::Drawable
-  include Celestine::Modules::Body
-  include Celestine::Modules::StrokeFill
-  include Celestine::Modules::Transform
-
-  def draw
-    options = [] of String
-    options << class_options unless class_options.empty?
-    options << id_options unless id_options.empty?
-    options << body_options unless body_options.empty?
-    options << stroke_fill_options unless stroke_fill_options.empty?
-    options << style_options unless style_options.empty?
-    %Q[<line #{options.join(" ")} />]
-  end
-end
-
-# Celestine::Meta::CLASSES.insert(0, Celestine::Line)
-
 module Cristgraphia
   VERSION = "0.1.0"
   SPACE   = 20
@@ -92,6 +74,7 @@ module Cristgraphia
   end
 
   def draw(plan, sign_values, x, y)
+    # Draw the bounds
     plan.rectangle do |rect|
       # We are now placing a red square
       # to draw the sign.
@@ -102,120 +85,241 @@ module Cristgraphia
       rect.stroke = "red"
       rect.fill = "none"
       rect
-    end
+    end if false
+
     # Line that always appear
-    plan.rectangle do |rect|
-      # We are now configuring the line
-      rect.x = x
-      rect.y = y
-      rect.width = 2.px
-      rect.height = 100.px
-      rect.stroke = "black"
-      rect.fill = "black"
+    plan.path do |path|
+      path.r_move(50, 0)
+      path.a_line(50, 100)
+      path.stroke = "black"
       # Use transform methods
-      rect.transform do |t|
-        t.translate(50, 0)
+      path.transform do |t|
+        t.translate(x, y)
         t
       end
-      rect
+      path
     end
 
-    # Lines that may or may not appear depending of the digit
-    # exemple <line x1="50" y1="0" x2="50" y2="100" style="stroke:black;" transform="translate(0, 120)"/>
+    # Lines that may or may not appear depending of the digits.
+    # example <path d="m50,0L100,0" stroke="green" transform="translate(720,960)" />
+    # https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
     sign_values.each do |num|
-      case num
-      when 1
-        # #line(50, 0, 100, 0).translate(x, y) # 1579 -
-      when 2
-        # #line(50, 50, 100, 50).translate(x, y) # 289 _
-      when 3
-        # #line(50, 0, 100, 50).translate(x, y) # 3 \
-      when 4
-        # line(50, 50, 100, 0).translate(x, y) # 45 /
-      when 5
-        # line(50, 0, 100, 0).translate(x, y)  # 1579 -
-        # line(50, 50, 100, 0).translate(x, y) # 45 /
-      when 6
-        # line(100, 0, 100, 50).translate(x, y) # 6789 |
-      when 7
-        # line(50, 0, 100, 0).translate(x, y)   # 1579 -
-        # line(100, 0, 100, 50).translate(x, y) # 6789 |
-      when 8
-        # line(100, 0, 100, 50).translate(x, y) # 6789 |
-        # line(50, 50, 100, 50).translate(x, y) # 289 _
-      when 9
-        # line(50, 0, 100, 0).translate(x, y)   # 1579 -
-        # line(100, 0, 100, 50).translate(x, y) # 6789 |
-        # line(50, 50, 100, 50).translate(x, y) # 289 _
-      when 10
-        # line(50, 0, 0, 0).translate(x, y) # 1579 -
-      when 20
-        # line(50, 50, 0, 50).translate(x, y) # 289 _
-      when 30
-        # line(50, 0, 0, 50).translate(x, y) # 3 /
-      when 40
-        # line(50, 50, 0, 0).translate(x, y) # 45 \
-      when 50
-        # line(50, 50, 0, 0).translate(x, y) # 45 \
-        # line(50, 0, 0, 0).translate(x, y)  # 1579 -
-      when 60
-        # line(0, 50, 0, 0).translate(x, y) # 6789 |
-      when 70
-        # line(0, 50, 0, 0).translate(x, y) # 6789 |
-        # line(50, 0, 0, 0).translate(x, y) # 1579 -
-      when 80
-        # line(50, 50, 0, 50).translate(x, y) # 289 _
-        # line(0, 50, 0, 0).translate(x, y)   # 6789 |
-      when 90
-        # line(0, 50, 0, 0).translate(x, y)   # 6789 |
-        # line(50, 0, 0, 0).translate(x, y)   # 1579 -
-        # line(50, 50, 0, 50).translate(x, y) # 289 _
-      when 100
-        # line(50, 100, 100, 100).translate(x, y) # 1579 _
-      when 200
-        # line(50, 50, 100, 50).translate(x, y) # 289 -
-      when 300
-        # line(50, 100, 100, 50).translate(x, y) # 3 /
-      when 400
-        # line(50, 50, 100, 100).translate(x, y) # 45 \
-      when 500
-        # line(50, 50, 100, 100).translate(x, y)  # 45 \
-        # line(50, 100, 100, 100).translate(x, y) # 1579 _
-      when 600
-        # line(100, 50, 100, 100).translate(x, y) # 6789 |
-      when 700
-        # line(100, 50, 100, 100).translate(x, y) # 6789 |
-        # line(50, 100, 100, 100).translate(x, y) # 1579 _
-      when 800
-        # line(100, 50, 100, 100).translate(x, y) # 6789 |
-        # line(50, 50, 100, 50).translate(x, y)   # 289 -
-      when 900
-        # line(100, 50, 100, 100).translate(x, y) # 6789 |
-        # line(50, 100, 100, 100).translate(x, y) # 1579 _
-        # line(50, 50, 100, 50).translate(x, y)   # 289 -
-      when 1000
-        # line(50, 100, 0, 100).translate(x, y) # 1579 _
-      when 2000
-        # line(50, 50, 0, 50).translate(x, y) # 289 -
-      when 3000
-        # line(50, 100, 0, 50).translate(x, y) # 3 \
-      when 4000
-        # line(50, 50, 0, 100).translate(x, y) # 45 /
-      when 5000
-        # line(50, 50, 0, 100).translate(x, y)  # 45 /
-        # line(50, 100, 0, 100).translate(x, y) # 1579 _
-      when 6000
-        # line(0, 50, 0, 100).translate(x, y) # 6789 |
-      when 7000
-        # line(50, 100, 0, 100).translate(x, y) # 1579 _
-        # line(0, 50, 0, 100).translate(x, y)   # 6789 |
-      when 8000
-        # line(0, 50, 0, 100).translate(x, y) # 6789 |
-        # line(50, 50, 0, 50).translate(x, y) # 289 -
-      when 9000
-        # line(0, 50, 0, 100).translate(x, y)   # 6789 |
-        # line(50, 100, 0, 100).translate(x, y) # 1579 _
-        # line(50, 50, 0, 50).translate(x, y)   # 289 -
+      plan.path do |path|
+        path.stroke = "black"
+        # Use transform methods
+        path.transform do |t|
+          t.translate(x, y)
+          t
+        end
+        case num
+        when 1
+          path.a_move(50, 0)
+          path.a_line(100, 0)
+          # 1579 -
+        when 2
+          path.a_move(50, 50)
+          path.a_line(100, 50)
+          # 289 _
+        when 3
+          # #line(50, 0, 100, 50).translate(x, y)
+          path.a_move(50, 0)
+          path.a_line(100, 50)
+          # 3 \
+        when 4
+          # line(50, 50, 100, 0).translate(x, y)
+          path.a_move(50, 50)
+          path.a_line(100, 0)
+          # 45 /
+        when 5
+          path.a_move(50, 0)
+          path.a_line(100, 0)
+          # 1579 -
+          path.a_move(50, 50)
+          path.a_line(100, 0)
+          # 45 /
+        when 6
+          path.a_move(100, 0)
+          path.a_line(100, 50)
+          # 6789 |
+        when 7
+          path.a_move(50, 0)
+          path.a_line(100, 0)
+          # 1579 -
+          path.a_move(100, 0)
+          path.a_line(100, 50)
+          # 6789 |
+        when 8
+          path.a_move(100, 0)
+          path.a_line(100, 50)
+          # 6789 |
+          path.a_move(50, 50)
+          path.a_line(100, 50)
+          # 289 _
+        when 9
+          path.a_move(50, 0)
+          path.a_line(100, 0)
+          # 1579 -
+          path.a_move(100, 0)
+          path.a_line(100, 50)
+          # 6789 |
+          path.a_move(50, 50)
+          path.a_line(100, 50)
+          # 289 _
+        when 10
+          path.a_move(50, 0)
+          path.a_line(0, 0)
+          # 1579 -
+        when 20
+          path.a_move(50, 50)
+          path.a_line(0, 50)
+          # 289 _
+        when 30
+          path.a_move(50, 0)
+          path.a_line(0, 50)
+          # 3 /
+        when 40
+          path.a_move(50, 50)
+          path.a_line(0, 0)
+          # 45 \
+        when 50
+          path.a_move(50, 50)
+          path.a_line(0, 0)
+          # 45 \
+          path.a_move(50, 0)
+          path.a_line(0, 0)
+          # 1579 -
+        when 60
+          path.a_move(0, 50)
+          path.a_line(0, 0)
+          # 6789 |
+        when 70
+          path.a_move(0, 50)
+          path.a_line(0, 0)
+          # 6789 |
+          path.a_move(50, 0)
+          path.a_line(0, 0)
+          # 1579 -
+        when 80
+          path.a_move(50, 50)
+          path.a_line(0, 50)
+          # 289 _
+          path.a_move(0, 50)
+          path.a_line(0, 0)
+          # 6789 |
+        when 90
+          path.a_move(0, 50)
+          path.a_line(0, 0)
+          # 6789 |
+          path.a_move(50, 0)
+          path.a_line(0, 0)
+          # 1579 -
+          path.a_move(50, 50)
+          path.a_line(0, 50)
+          # 289 _
+        when 100
+          path.a_move(50, 100)
+          path.a_line(100, 100)
+          # 1579 _
+        when 200
+          path.a_move(50, 50)
+          path.a_line(100, 50)
+          # 289 -
+        when 300
+          path.a_move(50, 100)
+          path.a_line(100, 50)
+          # 3 /
+        when 400
+          path.a_move(50, 50)
+          path.a_line(100, 100)
+          # 45 \
+        when 500
+          path.a_move(50, 50)
+          path.a_line(100, 100)
+          # 45 \
+          path.a_move(50, 100)
+          path.a_line(100, 100)
+          # 1579 _
+        when 600
+          path.a_move(100, 50)
+          path.a_line(100, 100)
+          # 6789 |
+        when 700
+          path.a_move(100, 50)
+          path.a_line(100, 100)
+          # 6789 |
+          path.a_move(50, 100)
+          path.a_line(100, 100)
+          # 1579 _
+        when 800
+          path.a_move(100, 50)
+          path.a_line(100, 100)
+          # 6789 |
+          path.a_move(50, 50)
+          path.a_line(100, 50)
+          # 289 -
+        when 900
+          path.a_move(100, 50)
+          path.a_line(100, 100)
+          # 6789 |
+          path.a_move(50, 100)
+          path.a_line(100, 100)
+          # 1579 _
+          path.a_move(50, 50)
+          path.a_line(100, 50)
+          # 289 -
+        when 1000
+          path.a_move(50, 100)
+          path.a_line(0, 100)
+          # 1579 _
+        when 2000
+          path.a_move(50, 50)
+          path.a_line(0, 50)
+          # 289 -
+        when 3000
+          path.a_move(50, 100)
+          path.a_line(0, 50)
+          # 3 \
+        when 4000
+          path.a_move(50, 50)
+          path.a_line(0, 100)
+          # 45 /
+        when 5000
+          path.a_move(50, 50)
+          path.a_line(0, 100)
+          # 45 /
+          path.a_move(50, 100)
+          path.a_line(0, 100)
+          # 1579 _
+        when 6000
+          path.a_move(0, 50)
+          path.a_line(0, 100)
+          # 6789 |
+        when 7000
+          path.a_move(50, 100)
+          path.a_line(0, 100)
+          # 1579 _
+          path.a_move(50, 0)
+          path.a_line(0, 100)
+          # 6789 |
+        when 8000
+          path.a_move(0, 50)
+          path.a_line(0, 100)
+          # 6789 |
+          path.a_move(50, 50)
+          path.a_line(0, 50)
+          # 289 -
+        when 9000
+          path.a_move(0, 50)
+          path.a_line(0, 100)
+          # 6789 |
+          path.a_move(50, 100)
+          path.a_line(0, 100)
+          # 1579 _
+          path.a_move(50, 50)
+          path.a_line(0, 50)
+          # 289 -
+        end
+        path
       end
     end
   end
