@@ -74,7 +74,7 @@ module Cristgraphia
   end
 end
 
-o = Celestine.draw do |ctx|
+content = Celestine.draw do |ctx|
   ctx.view_box = {x: 0, y: 0, w: 100, h: 100}
   # draw a circle
   ctx.circle do |circle|
@@ -95,9 +95,19 @@ end
 
 include Cristgraphia
 
+# Begin Prepare a perfect square
 sequence = cister("OK alors c'est super les gars...")
 until perfect_square?(sequence.size)
   sequence = inject_evil_symbols(sequence)
 end
-puts sequence
-puts o
+# End
+
+# Begin Draw line by line
+sequence.map { |s| digits(s) }
+.each_slice(Math.sqrt(sequence.size).to_i) do |slice|
+  puts slice
+end
+# End
+
+path = "inline.svg"
+File.write(path, content)
