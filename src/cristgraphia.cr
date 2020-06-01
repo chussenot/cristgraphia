@@ -72,6 +72,134 @@ module Cristgraphia
     array.insert(index, 9999)
     array.insert(index, rand(9999))
   end
+
+  def draw(plan, sign_values, x, y)
+    plan.rectangle do |rect|
+      # We are now placing a red square
+      # to draw the sign.
+      rect.x = x
+      rect.y = y
+      rect.width = 100.px
+      rect.height = 100.px
+      rect.stroke = "red"
+      rect.fill = "none"
+      rect
+    end
+    # Line that always appear
+    plan.rectangle do |rect|
+      # We are now configuring the line
+      rect.x = x
+      rect.y = y
+      rect.width = 2.px
+      rect.height = 100.px
+      rect.stroke = "black"
+      rect.fill = "black"
+      # Use transform methods
+      rect.transform do |t|
+        t.translate(50, 0)
+        t
+      end
+      rect
+    end
+
+    # Lines that may or may not appear depending of the digit
+    sign_values.each do |num|
+      case num
+      when 1
+        ##line(50, 0, 100, 0).translate(x, y) # 1579 -
+      when 2
+        ##line(50, 50, 100, 50).translate(x, y) # 289 _
+      when 3
+        ##line(50, 0, 100, 50).translate(x, y) # 3 \
+      when 4
+        #line(50, 50, 100, 0).translate(x, y) # 45 /
+      when 5
+        #line(50, 0, 100, 0).translate(x, y)  # 1579 -
+        #line(50, 50, 100, 0).translate(x, y) # 45 /
+      when 6
+        #line(100, 0, 100, 50).translate(x, y) # 6789 |
+      when 7
+        #line(50, 0, 100, 0).translate(x, y)   # 1579 -
+        #line(100, 0, 100, 50).translate(x, y) # 6789 |
+      when 8
+        #line(100, 0, 100, 50).translate(x, y) # 6789 |
+        #line(50, 50, 100, 50).translate(x, y) # 289 _
+      when 9
+        #line(50, 0, 100, 0).translate(x, y)   # 1579 -
+        #line(100, 0, 100, 50).translate(x, y) # 6789 |
+        #line(50, 50, 100, 50).translate(x, y) # 289 _
+      when 10
+        #line(50, 0, 0, 0).translate(x, y) # 1579 -
+      when 20
+        #line(50, 50, 0, 50).translate(x, y) # 289 _
+      when 30
+        #line(50, 0, 0, 50).translate(x, y) # 3 /
+      when 40
+        #line(50, 50, 0, 0).translate(x, y) # 45 \
+      when 50
+        #line(50, 50, 0, 0).translate(x, y) # 45 \
+        #line(50, 0, 0, 0).translate(x, y)  # 1579 -
+      when 60
+        #line(0, 50, 0, 0).translate(x, y) # 6789 |
+      when 70
+        #line(0, 50, 0, 0).translate(x, y) # 6789 |
+        #line(50, 0, 0, 0).translate(x, y) # 1579 -
+      when 80
+        #line(50, 50, 0, 50).translate(x, y) # 289 _
+        #line(0, 50, 0, 0).translate(x, y)   # 6789 |
+      when 90
+        #line(0, 50, 0, 0).translate(x, y)   # 6789 |
+        #line(50, 0, 0, 0).translate(x, y)   # 1579 -
+        #line(50, 50, 0, 50).translate(x, y) # 289 _
+      when 100
+        #line(50, 100, 100, 100).translate(x, y) # 1579 _
+      when 200
+        #line(50, 50, 100, 50).translate(x, y) # 289 -
+      when 300
+        #line(50, 100, 100, 50).translate(x, y) # 3 /
+      when 400
+        #line(50, 50, 100, 100).translate(x, y) # 45 \
+      when 500
+        #line(50, 50, 100, 100).translate(x, y)  # 45 \
+        #line(50, 100, 100, 100).translate(x, y) # 1579 _
+      when 600
+        #line(100, 50, 100, 100).translate(x, y) # 6789 |
+      when 700
+        #line(100, 50, 100, 100).translate(x, y) # 6789 |
+        #line(50, 100, 100, 100).translate(x, y) # 1579 _
+      when 800
+        #line(100, 50, 100, 100).translate(x, y) # 6789 |
+        #line(50, 50, 100, 50).translate(x, y)   # 289 -
+      when 900
+        #line(100, 50, 100, 100).translate(x, y) # 6789 |
+        #line(50, 100, 100, 100).translate(x, y) # 1579 _
+        #line(50, 50, 100, 50).translate(x, y)   # 289 -
+      when 1000
+        #line(50, 100, 0, 100).translate(x, y) # 1579 _
+      when 2000
+        #line(50, 50, 0, 50).translate(x, y) # 289 -
+      when 3000
+        #line(50, 100, 0, 50).translate(x, y) # 3 \
+      when 4000
+        #line(50, 50, 0, 100).translate(x, y) # 45 /
+      when 5000
+        #line(50, 50, 0, 100).translate(x, y)  # 45 /
+        #line(50, 100, 0, 100).translate(x, y) # 1579 _
+      when 6000
+        #line(0, 50, 0, 100).translate(x, y) # 6789 |
+      when 7000
+        #line(50, 100, 0, 100).translate(x, y) # 1579 _
+        #line(0, 50, 0, 100).translate(x, y)   # 6789 |
+      when 8000
+        #line(0, 50, 0, 100).translate(x, y) # 6789 |
+        #line(50, 50, 0, 50).translate(x, y) # 289 -
+      when 9000
+        #line(0, 50, 0, 100).translate(x, y)   # 6789 |
+        #line(50, 100, 0, 100).translate(x, y) # 1579 _
+        #line(50, 50, 0, 50).translate(x, y)   # 289 -
+      end
+    end
+  end
 end
 
 include Cristgraphia
@@ -85,33 +213,18 @@ end
 
 # Begin Draw line by line
 y = 0
-content = Celestine.draw do |ctx|
-  ctx.view_box = {x: 0, y: 0, w: 100 * sequence.size, h: 100 * sequence.size}
+content = Celestine.draw do |plan|
+  plan.view_box = {x: 0, y: 0, w: SPACE * sequence.size, h: SPACE * sequence.size}
   # draw a circle
   sequence.map { |s| digits(s) }
-  .each_slice(Math.sqrt(sequence.size).to_i) do |slice|
-    y += SPACE + 100
-    slice.each_with_index do |s, i| 
-      x = (100 + SPACE) * i
-      # symbol(s, i, y) 
-      ctx.circle do |circle|
-        # We are now configuring the circle
-        circle.x = x
-        circle.y = y
-        circle.stroke = "black"
-        circle.fill = "none"
-        circle.radius = 10
-        # Want to specify in css units? Try these handy patch methods
-        circle.radius = 10.px
-        circle.x = 10.percent
-        circle.y = 10.vmax
-        circle
+    .each_slice(Math.sqrt(sequence.size).to_i) do |slice|
+      y += SPACE + 100
+      slice.each_with_index do |sign_values, index|
+        x = (100 + SPACE) * index
+        draw(plan, sign_values, x, y)
       end
     end
-  end
-
 end
-
 # End
 
 path = "inline.svg"
