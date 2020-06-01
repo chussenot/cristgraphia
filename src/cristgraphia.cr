@@ -33,6 +33,8 @@ module Cristgraphia
     ' ' => 900,
   }
 
+  # Clean the given string for something...
+  # that we can handle.
   def cister(message)
     message.downcase
       .gsub(/\W/, ' ')
@@ -46,6 +48,7 @@ module Cristgraphia
       end.flatten
   end
 
+  # Extract units, tens, thousands, hundreds
   def digits(num)
     cs = num.to_s.chars
     ([] of Int32).tap do |o|
@@ -54,6 +57,20 @@ module Cristgraphia
         o << (c + Array.new(cs.size) { |_i| 0 }.join).to_i
       end
     end
+  end
+
+  # Is it a perfect square?
+  def perfect_square?(x)
+    Math.sqrt(x) % 1 == 0
+  end
+
+  # Insert at random place symbols.
+  # Every symbol before the 9999 symbol
+  # (should be ignored to uncipher the message...)
+  def inject_evil_symbols(array)
+    index = rand(0..array.size)
+    array.insert(index, 9999)
+    array.insert(index, rand(9999))
   end
 end
 
@@ -78,5 +95,9 @@ end
 
 include Cristgraphia
 
-puts cister("OK alors c'est super les gars...")
-puts digits(2048)
+sequence = cister("OK alors c'est super les gars...")
+until perfect_square?(sequence.size)
+  sequence = inject_evil_symbols(sequence)
+end
+puts sequence
+puts o
