@@ -74,25 +74,6 @@ module Cristgraphia
   end
 end
 
-content = Celestine.draw do |ctx|
-  ctx.view_box = {x: 0, y: 0, w: 100, h: 100}
-  # draw a circle
-  ctx.circle do |circle|
-    # We are now configuring the circle
-    circle.x = 10
-    circle.y = 20
-    circle.stroke = "black"
-    circle.fill = "none"
-    circle.radius = 10
-
-    # Want to specify in css units? Try these handy patch methods
-    circle.radius = 10.px
-    circle.x = 10.percent
-    circle.y = 10.vmax
-    circle
-  end
-end
-
 include Cristgraphia
 
 # Begin Prepare a perfect square
@@ -103,10 +84,34 @@ end
 # End
 
 # Begin Draw line by line
-sequence.map { |s| digits(s) }
-.each_slice(Math.sqrt(sequence.size).to_i) do |slice|
-  puts slice
+y = 0
+content = Celestine.draw do |ctx|
+  ctx.view_box = {x: 0, y: 0, w: 100 * sequence.size, h: 100 * sequence.size}
+  # draw a circle
+  sequence.map { |s| digits(s) }
+  .each_slice(Math.sqrt(sequence.size).to_i) do |slice|
+    y += SPACE + 100
+    slice.each_with_index do |s, i| 
+      x = (100 + SPACE) * i
+      # symbol(s, i, y) 
+      ctx.circle do |circle|
+        # We are now configuring the circle
+        circle.x = x
+        circle.y = y
+        circle.stroke = "black"
+        circle.fill = "none"
+        circle.radius = 10
+        # Want to specify in css units? Try these handy patch methods
+        circle.radius = 10.px
+        circle.x = 10.percent
+        circle.y = 10.vmax
+        circle
+      end
+    end
+  end
+
 end
+
 # End
 
 path = "inline.svg"
