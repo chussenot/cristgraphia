@@ -1,7 +1,7 @@
 require "celestine"
 
 module Cristgraphia
-  VERSION = "0.1.0"
+  VERSION = "0.2.0"
   SPACE   = 20
   TABLET  = {
     'a' => 1,
