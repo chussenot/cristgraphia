@@ -10,9 +10,12 @@ targets:
 
 dependencies:
   celestine:
-    github: redcodefinal/celestine
-    branch: e3395e0d22349fa7bff94ea6f10f6f546a0320c1
+    github: celestinecr/celestine
+    branch: main
+  clim:
+    github: at-grandpa/clim
+    version: 0.12.0
 
-crystal: 0.34.0
+crystal: 0.35.1
 
 license: MIT

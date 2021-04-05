@@ -1,10 +1,14 @@
-version: 1.0
+version: 2.0
 shards:
   celestine:
-    github: redcodefinal/celestine
-    commit: e3395e0d22349fa7bff94ea6f10f6f546a0320c1
+    git: https://github.com/celestinecr/celestine.git
+    version: 0.1.0+git.commit.e3395e0d22349fa7bff94ea6f10f6f546a0320c1
+
+  clim:
+    git: https://github.com/at-grandpa/clim.git
+    version: 0.12.0
 
   vectormath:
-    github: mathalaxy/vectormath
+    git: https://github.com/mathalaxy/vectormath.git
     version: 0.1.5
 

@@ -350,5 +350,6 @@ content = Celestine.draw do |plan|
 end
 # End
 
-path = "inline.svg"
-File.write(path, content)
+#path = "inline.svg"
+#File.write(path, content)
+puts content
